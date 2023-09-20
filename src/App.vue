@@ -100,8 +100,6 @@ export default {
       viewport: 1440,
       valuePX: '',
       valueVW: '',
-      // spiceBool: undefined,
-      // rangeBool: undefined,
       prefix: '',
       postfix: '',
       rangesString: '',
@@ -116,7 +114,7 @@ export default {
       return a - b;
     },
     copyText(){
-      if(this.keyvalue.length > 0){
+      if(Object.keys(this.keyvalue).length > 0){
         let that = this;
         navigator.clipboard.writeText(document.getElementById('JSONContents').textContent);
         this.showCopyMessage = !this.showCopyMessage;
@@ -126,12 +124,12 @@ export default {
       }
     },
     validateInput(event){
-      const allowedPattern = /[^0-9*,\-]/g;
-      event.target.value = event.target.value.replace(allowedPattern, '');
-      this.rangesString = event.target.value.replace(allowedPattern, '');
+      const replaceSpaceAfterDigit = /(\d)\s/g;
+      const disallowSpaceAfterSpace = /(\s)\s/g;
+      const allowedPattern = /[^0-9,\s\-]/g;
+      this.rangesString = event.target.value.replace(allowedPattern, '').replace(replaceSpaceAfterDigit, '$1, ').replace(disallowSpaceAfterSpace, ' ');
     },
     processRanges(){
-      // alert('PROCESSING')
       const that = this;
       if(this.userSpecificSingle.length > 0){
         this.userSpecificSingle = [];
@@ -146,7 +144,7 @@ export default {
         if(single.includes('-')){
           let rangeArrayUnfiltered = single.split('-');
           let rangeArrayFiltered = rangeArrayUnfiltered.filter((value) => value.length > 0);
-          let rangeArray = rangeArrayFiltered.sort(this.compareNumbers);
+          let rangeArray = rangeArrayFiltered.sort(this.helperCompareNumbers);
           if(rangeArray.length > 1){
             this.userSpecificDouble.push(rangeArray);
           } else{
@@ -182,10 +180,9 @@ export default {
               });
             }
             if(this.userSpecificDouble.length > 0){
-              // QUIN, you stopped here
               this.userSpecificDouble.forEach(function(element){
                 let value_1 = element[0];
-                let value_2 = element[-1];
+                let value_2 = element[element.length-1];
                 let pointStart;
                 let pointEnd;
                 if(value_1 != value_2){
@@ -194,11 +191,6 @@ export default {
                   for(let i = pointStart; i <= pointEnd; i++){
                     that.keyvalue[that.prefix.trim() + i + that.postfix.trim()] = ((i/that.viewport)*100).toFixed(3) + "vw";
                   }
-                  // let i = pointStart;
-                  // while(i <= pointEnd){
-                    // that.keyvalue[that.prefix.trim() + i + that.postfix.trim()] = ((i/that.viewport)*100).toFixed(3) + "vw";
-                    // i++;
-                  // }
                 } else if (value_1 == value_2){
                   that.keyvalue[that.prefix.trim() + value_1 + that.postfix.trim()] = ((value_1/that.viewport)*100).toFixed(3) + "vw";
                 } else{
@@ -240,6 +232,7 @@ export default {
   },
   // watch:{
   //   showCopyButton(newValue, oldValue){
+  //     hell it's confusing, how does it even work
   //     return this.keyvalue.length > 0 ? this.showCopyButton = true : this.showCopyButton = false;
   //   }
   // }
