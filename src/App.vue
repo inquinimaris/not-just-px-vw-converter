@@ -131,7 +131,8 @@ export default {
       const replaceSpaceAfterDigit = /(\d)\s/g;
       const disallowSpaceAfterSpace = /(\s)\s/g;
       const allowedPattern = /[^0-9,\s\-]/g;
-      this.rangesString = event.target.value.replace(allowedPattern, '').replace(replaceSpaceAfterDigit, '$1, ').replace(disallowSpaceAfterSpace, ' ');
+      const disallowDashAfterDash = /(\-)[\s\-]/g;
+      this.rangesString = event.target.value.replace(allowedPattern, '').replace(replaceSpaceAfterDigit, '$1, ').replace(disallowSpaceAfterSpace, ' ').replace(disallowDashAfterDash, '-');
     },
     processRanges(){
       const that = this;
