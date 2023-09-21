@@ -11,13 +11,13 @@
           <div>
             <h3>Desktops</h3>
             <div class="grid grid-cols-6 gap-4 mt-2 max-sm:grid-cols-2">
-              <button v-for="popularViewport in popularViewports.desktop" :key="popularViewport + 'key'" type="button" @click="changeViewport(popularViewport)">{{popularViewport}}</button>
+              <button v-for="popularViewport in popularViewports.desktop" :key="popularViewport + 'key'" type="button" class="button --default" @click="changeViewport(popularViewport)">{{popularViewport}}</button>
             </div>
           </div>
           <div>
             <h3>Mobile</h3>
             <div class="grid grid-cols-4 gap-4 mt-2 max-sm:grid-cols-2">
-              <button v-for="popularViewport in popularViewports.mobile" :key="popularViewport + 'key'" type="button" @click="changeViewport(popularViewport)">{{popularViewport}}</button>
+              <button v-for="popularViewport in popularViewports.mobile" :key="popularViewport + 'key'" type="button" class="button --default" @click="changeViewport(popularViewport)">{{popularViewport}}</button>
             </div>
           </div>
         </div>
@@ -70,16 +70,20 @@
                   <p>You can also input a range in reverse: <span class="inline text-accent-main bg-accent-alter p-1">420-359</span></p>
                 </div>
               </div>
-              <button type="button" @click="rangesString.length > 0 ? processRanges() : therealfun('default')"> Generate me that list</button>
+              <button type="button" class="button --default" @click="rangesString.length > 0 ? processRanges() : therealfun('default')"> Generate me that list</button>
             </div>
             <div class="relative max-sm:h-60 overflow-hidden h-full text-accent-main bg-accent-alter rounded-md row-span-2">
               <pre class="absolute w-full h-full overflow-x-hidden p-4"><code class="w-full h-full overflow-x-hidden" id="JSONContents">{{ keyvalue }}</code></pre>
-              <button class="absolute right-8 top-4 bg-background rounded-md w-8 aspect-square block p-1" @click="copyText">
-                <svg class="w-full aspect-square" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 16.5L19.5 4.5L18.75 3.75H9L8.25 4.5L8.25 7.5L5.25 7.5L4.5 8.25V20.25L5.25 21H15L15.75 20.25V17.25H18.75L19.5 16.5ZM15.75 15.75L15.75 8.25L15 7.5L9.75 7.5V5.25L18 5.25V15.75H15.75ZM6 9L14.25 9L14.25 19.5L6 19.5L6 9Z" class="fill-accent-main"/>
-              </svg>
-              </button>
-              <p v-show="showCopyMessage" class="bg-background rounded-md p-2 absolute left-1/2 -translate-x-1/2 bottom-4" id="message">Copied to clipboard</p>
+              <transition>
+                <button v-show="Object.keys(this.keyvalue).length > 0" type="button" class="button --light absolute right-8 top-4 w-8 aspect-square block" @click="copyText">
+                  <svg class="w-full aspect-square" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 16.5L19.5 4.5L18.75 3.75H9L8.25 4.5L8.25 7.5L5.25 7.5L4.5 8.25V20.25L5.25 21H15L15.75 20.25V17.25H18.75L19.5 16.5ZM15.75 15.75L15.75 8.25L15 7.5L9.75 7.5V5.25L18 5.25V15.75H15.75ZM6 9L14.25 9L14.25 19.5L6 19.5L6 9Z" class="fill-accent-main"/>
+                  </svg>
+                </button>
+              </transition>
+              <transition>
+                <p v-show="showCopyMessage" class="bg-background rounded-md p-2 absolute left-1/2 -translate-x-1/2 bottom-4" id="message">Copied to clipboard</p>
+              </transition>
             </div>
           </div>
         </section>
@@ -238,3 +242,16 @@ export default {
   // }
 }
 </script>
+
+<style>
+.v-enter-active, .v-leave-active{
+  transition: opacity 0.2s ease;
+}
+.v-enter-to{
+  pointer-events: auto;
+}
+.v-leave-to, .v-enter-from{
+  opacity: 0;
+  pointer-events: none;
+}
+</style>

@@ -32,8 +32,14 @@
   input[type="text"], input[type="number"], input[type="password"]{
     @apply bg-accent-alter border border-primary/40 px-2 py-1 rounded-md transition-all duration-200 hover:border-primary/60 focus:border-primary/80 placeholder:text-primary/60;
   }
-  button[type="button"]{
-    @apply bg-accent-alter border border-primary/40 px-4 py-2 rounded-md transition-all duration-200 hover:border-primary/60 active:border-primary/80;
+  button.button[type="button"]{
+    @apply border rounded-md transition-all duration-200 border-primary/40 hover:border-primary/60 active:border-primary/80;
+  }
+  button.button.--default[type="button"]{
+    @apply bg-accent-alter px-4 py-2;
+  }
+  button.button.--light[type="button"]{
+    @apply bg-background p-1; 
   }
   input[type="checkbox"]{
     @apply before:content-[''] before:w-full before:h-full before:inline-block before:border before:border-primary/40 before:bg-transparent appearance-none w-6 h-6 before:transition-colors before:duration-200 before:rounded-sm
