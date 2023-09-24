@@ -1,5 +1,8 @@
 <template>
   <the-header></the-header>
+  <!-- <transition> -->
+    <the-sidebar></the-sidebar>
+  <!-- </transition> -->
   <main class="main py-6">
     <div class="container px-4">
       <h1>It's just a PX-VW converter</h1>
@@ -111,6 +114,7 @@ export default {
       userSpecificSingle: [],
       userSpecificDouble: [],
       showCopyMessage: false,
+      // showSidebar: false,
     }
   },
   methods:{
