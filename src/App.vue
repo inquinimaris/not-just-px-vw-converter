@@ -172,10 +172,10 @@ export default {
       this.therealfun('ranged');
     },
     therealfun(generationType){
+      if(Object.keys(this.keyvalue).length > 0){
+        this.keyvalue = {};
+      }
       if(this.rangesString){
-        if(Object.keys(this.keyvalue).length > 0){
-          this.keyvalue = {};
-        }
         switch(generationType){
           case 'ranged':
             const that = this;
